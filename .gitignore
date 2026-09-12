@@ -9,3 +9,10 @@ __pycache__/
 
 # Amplify build output (added later in the course)
 amplify_outputs.json
+.aws-sam/
+response.json
+refresh-response.json
+.aws-sam/
+response.json
+refresh-response.json
+invalid-response.json
