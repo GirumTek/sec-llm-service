@@ -16,3 +16,6 @@ refresh-response.json
 response.json
 refresh-response.json
 invalid-response.json
+cdk-10q-inference/.venv/
+cdk-10q-inference/cdk.out/
+cdk-10q-inference/**/__pycache__/
