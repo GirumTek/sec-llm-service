@@ -49,11 +49,11 @@ class CIKLookup:
         for i, f in enumerate(form):
             if f == "10-Q" and filingDate[i][0:4]== str(year):
                 filing_list.append((accessionNumber[i], filingDate[i],primaryDocument[i]))
-        # Step 5: reverse the collected list
         filing_list = filing_list[::-1]
-
+        
         if len(filing_list) < quarter:
             return None
+
         accession, date, doc = filing_list[quarter - 1]
 
         accession_no_dashes = accession.replace("-", "")
