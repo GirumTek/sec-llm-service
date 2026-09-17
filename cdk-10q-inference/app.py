@@ -7,7 +7,7 @@ from cdk_10q_inference.cdk_10q_inference_stack import Cdk10QInferenceStack
 
 
 app = cdk.App()
-Cdk10QInferenceStack(app, "Cdk10QInferenceStack",
+Cdk10QInferenceStack(app, "girumtek-cdk-10q-inference",
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,
     # but a single synthesized template can be deployed anywhere.
@@ -15,7 +15,7 @@ Cdk10QInferenceStack(app, "Cdk10QInferenceStack",
     # Uncomment the next line to specialize this stack for the AWS Account
     # and Region that are implied by the current CLI configuration.
 
-    #env=cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
+    env=cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
 
     # Uncomment the next line if you know exactly what Account and Region you
     # want to deploy the stack to. */
