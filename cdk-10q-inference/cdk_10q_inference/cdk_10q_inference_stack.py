@@ -3,6 +3,9 @@ from aws_cdk import (
     Duration,
     aws_lambda as _lambda,
     aws_iam as iam,
+    aws_apigatewayv2 as apigwv2,
+    aws_apigatewayv2_integrations as integrations,
+    CfnOutput,
 )
 from aws_cdk.aws_lambda_python_alpha import PythonFunction
 from constructs import Construct
@@ -29,3 +32,22 @@ class Cdk10QInferenceStack(Stack):
                 resources=["*"],
             )
         )
+
+        http_api = apigwv2.HttpApi(
+            self, "TenQInferenceApi",
+            cors_preflight=apigwv2.CorsPreflightOptions(
+                allow_origins=["http://localhost:5173"],
+                allow_methods=[apigwv2.CorsHttpMethod.POST, apigwv2.CorsHttpMethod.OPTIONS],
+                allow_headers=["Content-Type", "Authorization"],
+            ),
+        )
+
+        http_api.add_routes(
+            path="/inference",
+            methods=[apigwv2.HttpMethod.POST],
+            integration=integrations.HttpLambdaIntegration(
+                "InferenceIntegration", inference_fn
+            ),
+        )
+
+        CfnOutput(self, "ApiEndpoint", value=http_api.api_endpoint)
