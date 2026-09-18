@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SelectField, TextField, Button, View } from "@aws-amplify/ui-react";
 import "./ChatForm.css";
+import ReactMarkdown from "react-markdown";
 
 const COMPANIES: Record<string, string> = {
   Apple: "AAPL",
@@ -26,9 +27,20 @@ interface ResponseBody {
 }
 
 async function submitQuery(body: RequestBody): Promise<ResponseBody> {
-  console.log("Request:", JSON.stringify(body, null, 2));
-  await new Promise((r) => setTimeout(r, 800));
-  return { answer: "Stub response — replace with real Lambda call.", meta: {} };
+  const response = await fetch(import.meta.env.VITE_INFERENCE_API, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+
+  return response.json();
 }
 
 export default function ChatForm() {
@@ -140,7 +152,7 @@ export default function ChatForm() {
           <div className="doc-answer-label">
             {COMPANIES[company] || company} · {period} {year}
           </div>
-          <p>{answer}</p>
+          <ReactMarkdown>{answer}</ReactMarkdown>
         </div>
       )}
     </div>
