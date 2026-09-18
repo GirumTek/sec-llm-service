@@ -43,6 +43,7 @@
 
 .doc-submit:hover {
   background: #24401f;
+  color: var(--paper);
 }
 
 .doc-error {

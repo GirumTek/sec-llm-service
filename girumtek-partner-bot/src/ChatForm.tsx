@@ -2,6 +2,8 @@ import { useState } from "react";
 import { SelectField, TextField, Button, View } from "@aws-amplify/ui-react";
 import "./ChatForm.css";
 import ReactMarkdown from "react-markdown";
+import { fetchAuthSession } from "aws-amplify/auth";
+
 
 const COMPANIES: Record<string, string> = {
   Apple: "AAPL",
@@ -27,10 +29,13 @@ interface ResponseBody {
 }
 
 async function submitQuery(body: RequestBody): Promise<ResponseBody> {
+  const { tokens } = await fetchAuthSession();
+  const idToken = tokens?.idToken?.toString() ?? "";
   const response = await fetch(import.meta.env.VITE_INFERENCE_API, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": idToken,
     },
     body: JSON.stringify(body),
   });
